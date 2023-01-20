@@ -1,0 +1,49 @@
+#+STARTUP: showall
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{dsfont}
+
+* QRT Data Challenge 2022
+A brief exploration of the [[https://challengedata.ens.fr/participants/challenges/72/][QRT Data Challenge 2022]].
+
+** Challenge Description
+
+A key aspect of this challenge is constructing a $D\times F$ matrix
+$A\coloneqq[A_1,\ldots,A_F]$ with orthonormal columns where $D>F$. This can be
+achieved in at least two ways.
+
+*** Lagrange Multipliers
+
+*** The Exponential Map
+The original website makes the following remark:
+
+#+BEGIN_QUOTE
+The orthonormality condition for the vectors $A_1,\ldots,A_F$ reads
+$A^TA = I_F$ for the matrix $A\coloneqq[A_1,\ldots,A_F]$. The
+space of matrices satisfying this condition is known as the /Stiefel
+manifold/, a generalization of the orthogonal group, and one can show
+that the [benchmarking] procedure generates a sample from the uniform
+distribution on this (compact symmetric) space.
+#+END_QUOTE
+
+The /orthogonal group/ $O(D)$ is a /Lie group/ defined as
+
+$$ O(D) \coloneqq \left\{A\in\mathrm{GL}(D,\mathbb{R}): A^T A =
+I_D\right\}\,. $$
+
+Its associated /Lie algebra/, denoted by $\mathfrak{o}(D)$, is defined
+as 
+
+$$ \mathfrak{o}(D)\coloneqq \left\{X\in\mathrm{Mat}(D,\mathbb{R}): X^T +
+X = 0_D\right\}\,. $$
+
+The Lie algebra is the /tangent space/ to the Lie group at
+the identity; any Lie group element in the connected component containing
+the identity is the /matrix exponential/ of a Lie
+algebra element. 
+
+Thus, if we take any $D\times D$ anti-symmetric matrix $X$ and
+calculate the matrix exponential $A=\exp(X)$, then the first $F$
+columns $A_1,\ldots,A_F$ will be orthonormal!
+
