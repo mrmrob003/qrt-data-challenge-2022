@@ -10,22 +10,17 @@ A brief exploration of the [[https://challengedata.ens.fr/participants/challenge
 ** Challenge Description
 
 A key aspect of this challenge is constructing a $D\times F$ matrix
-$A\coloneqq[A_1,\ldots,A_F]$ with orthonormal columns where $D>F$. This can be
-achieved in at least two ways.
+$A\coloneqq[A_1,\ldots,A_F]$ with orthonormal columns where $D>F$. The
+space of such matrices is known as the /Stiefel manifold/, a
+generalization of the orthogonal group. We can construct Stiefel
+matrices in the following ways:
+1. [[#sampling-stiefel-matrices-uniformly-at-random][Sampling Stiefel Matrices Uniformly At Random]]
+2. [[#the-exponential-map][The Exponential Map]]
+3. [[#lagrange-multipliers][Lagrange Multipliers]]
 
-*** Lagrange Multipliers
+*** Sampling Stiefel Matrices Uniformly At Random
 
 *** The Exponential Map
-The original website makes the following remark:
-
-#+BEGIN_QUOTE
-The orthonormality condition for the vectors $A_1,\ldots,A_F$ reads
-$A^TA = I_F$ for the matrix $A\coloneqq[A_1,\ldots,A_F]$. The
-space of matrices satisfying this condition is known as the /Stiefel
-manifold/, a generalization of the orthogonal group, and one can show
-that the [benchmarking] procedure generates a sample from the uniform
-distribution on this (compact symmetric) space.
-#+END_QUOTE
 
 The /orthogonal group/ $O(D)$ is a /Lie group/ defined as
 
@@ -47,3 +42,4 @@ Thus, if we take any $D\times D$ anti-symmetric matrix $X$ and
 calculate the matrix exponential $A=\exp(X)$, then the first $F$
 columns $A_1,\ldots,A_F$ will be orthonormal!
 
+*** Lagrange Multipliers
