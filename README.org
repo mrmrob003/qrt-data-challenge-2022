@@ -11,18 +11,18 @@ A brief exploration of the [[https://challengedata.ens.fr/participants/challenge
 ** Challenge Description
 
 The task of forecasting stock market returns, specifically the
-relative price variations $R_{t}\in\mathbb{R}^N$ of $N$ stocks at
+relative price variations $R_ {t}\in\mathbb{R}^N$ of $N$ stocks at
 some time $t$, is a common problem in finance. The objective in this challenge
 is to use the information available up to that point in time to create
-a vector $S_{t+1}\in\mathbb{R}^N$ that maximises the prediction
-overlap $\langle S_{t+1},R_{t+1}\rangle$. 
+a vector $S_ {t+1}\in\mathbb{R}^N$ that maximises the prediction
+overlap $\langle S_ {t+1},R_ {t+1}\rangle$. 
 
 The simplest approach uses linear estimators where a parametric
 model of the form
 
-$$ S_{t+1} \coloneqq \sum_{\ell=1}^F E_{t,\ell}\beta_\ell $$
+$$ S_ {t+1} \coloneqq \sum_ {\ell=1}^F E_ {t,\ell}\beta_\ell $$
 
-is considered. The vectors $E_{t,\ell}\in\mathbb{R}^N$ are /explanatory factors/, typically chosen based on
+is considered. The vectors $E_ {t,\ell}\in\mathbb{R}^N$ are /explanatory factors/, typically chosen based on
 financial expertise, while the model parameters $\beta_\ell\in\mathbb{R}$ are
 fit using a training dataset.
 
@@ -31,9 +31,9 @@ may opt to learn them from within the simplest class of possible
 choices, namely linear combinations of past returns in a window of
 width $D$:
 
-$$ E_{t,\ell} \coloneqq \sum_{d=1}^{D} R_{t+1-d}A_{d,\ell} $$
+$$ E_ {t,\ell} \coloneqq \sum_ {d=1}^{D} R_ {t+1-d}A_{d,\ell} $$
 
-where $A\in\mathrm{Mat}_{D,F}(\mathbb{R})$ is a $D\times F$
+where $A\in\mathrm{Mat}_ {D,F}(\mathbb{R})$ is a $D\times F$
 matrix. Enforcing orthonormality between the columns of $A$ reduces
 redundancy in the model, but adds a non-linear constraint to the
 model's parameter space: $A^TA = I_F$. This constraint defines a /Stiefel manifold/, a
