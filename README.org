@@ -31,7 +31,7 @@ may opt to learn them from within the simplest class of possible
 choices, namely linear combinations of past returns in a window of
 width $D$:
 
-$$ E_ {t,\ell} \coloneqq \sum_ {d=1}^{D} R_ {t+1-d}A_{d,\ell} $$
+$$ E_ {t,\ell} \coloneqq \sum_ {d=1}^D R_ {t+1-d}A_ {d,\ell} $$
 
 where $A\in\mathrm{Mat}_ {D,F}(\mathbb{R})$ is a $D\times F$
 matrix. Enforcing orthonormality between the columns of $A$ reduces
