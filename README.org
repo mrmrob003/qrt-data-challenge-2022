@@ -5,41 +5,52 @@
 #+LATEX_HEADER: \usepackage{dsfont}
 
 * QRT Data Challenge 2022
+
 A brief exploration of the [[https://challengedata.ens.fr/participants/challenges/72/][QRT Data Challenge 2022]].
 
 ** Challenge Description
 
-A key aspect of this challenge is constructing a $D\times F$ matrix
-$A\coloneqq[A_1,\ldots,A_F]$ with orthonormal columns where $D>F$. The
-space of such matrices is known as the /Stiefel manifold/, a
-generalization of the orthogonal group. We can construct Stiefel
-matrices in the following ways:
-1. [[#sampling-stiefel-matrices-uniformly-at-random][Sampling Stiefel Matrices Uniformly At Random]]
-2. [[#the-exponential-map][The Exponential Map]]
-3. [[#lagrange-multipliers][Lagrange Multipliers]]
+The task of forecasting stock market returns, specifically the
+relative price variations $R_{t}\in\mathbb{R}^N$ of $N$ stocks at
+some time $t$, is a common problem in finance. The objective in this challenge
+is to use the information available up to that point in time to create
+a vector $S_{t+1}\in\mathbb{R}^N$ that maximises the prediction
+overlap $\langle S_{t+1},R_{t+1}\rangle$. 
+
+The simplest approach uses linear estimators where a parametric
+model of the form
+
+$$ S_{t+1} \coloneqq \sum_{\ell=1}^F E_{t,\ell}\beta_\ell $$
+
+is considered. The vectors $E_{t,\ell}\in\mathbb{R}^N$ are /explanatory factors/, typically chosen based on
+financial expertise, while the model parameters $\beta_\ell\in\mathbb{R}$ are
+fit using a training dataset.
+
+Rather than relying on standard choices for explanatory factors, one
+may opt to learn them from within the simplest class of possible
+choices, namely linear combinations of past returns in a window of
+width $D$:
+
+$$ E_{t,\ell} \coloneqq \sum_{d=1}^{D} R_{t+1-d}A_{d,\ell} $$
+
+where $A\in\mathrm{Mat}_{D,F}(\mathbb{R})$ is a $D\times F$
+matrix. Enforcing orthonormality between the columns of $A$ reduces
+redundancy in the model, but adds a non-linear constraint to the
+model's parameter space: $A^TA = I_F$. This constraint defines a /Stiefel manifold/, a
+generalization of the orthogonal group. There are multiple methods for
+constructing Stiefel matrices; [[file:exploration.ipynb]] explores the
+following options:
+1. [[Sampling Stiefel Matrices Uniformly At Random]]
+2. [[The Exponential Map]]
+3. [[Penalties]]
+4. [[Lagrange Multipliers]]
+
+** Solution Methods
 
 *** Sampling Stiefel Matrices Uniformly At Random
 
 *** The Exponential Map
 
-The /orthogonal group/ $O(D)$ is a /Lie group/ defined as
-
-$$ O(D) \coloneqq \left\{A\in\mathrm{GL}(D,\mathbb{R}): A^T A =
-I_D\right\}\,. $$
-
-Its associated /Lie algebra/, denoted by $\mathfrak{o}(D)$, is defined
-as 
-
-$$ \mathfrak{o}(D)\coloneqq \left\{X\in\mathrm{Mat}(D,\mathbb{R}): X^T +
-X = 0_D\right\}\,. $$
-
-The Lie algebra is the /tangent space/ to the Lie group at
-the identity; any Lie group element in the connected component containing
-the identity is the /matrix exponential/ of a Lie
-algebra element. 
-
-Thus, if we take any $D\times D$ anti-symmetric matrix $X$ and
-calculate the matrix exponential $A=\exp(X)$, then the first $F$
-columns $A_1,\ldots,A_F$ will be orthonormal!
+*** Penalties
 
 *** Lagrange Multipliers
