@@ -40,10 +40,10 @@ model's parameter space: $A^TA = I_F$. This constraint defines a /Stiefel manifo
 generalization of the orthogonal group. There are multiple methods for
 constructing Stiefel matrices; [[file:exploration.ipynb]] explores the
 following options:
-1. [[#sampling-stiefel-matrices-uniformly-at-random][Sampling Stiefel Matrices Uniformly At Random]]
-2. [[#the-exponential-map][The Exponential Map]]
-3. [[#penalties][Penalties]]
-4. [[#lagrange-multipliers][Lagrange Multipliers]]
+1. [[#sampling-stiefel-matrices-uniformly-at-random][sampling stiefel matrices uniformly at random]];
+2. using [[#the-exponential-map][the exponential map]] as an chart; 
+3. using [[#penalties][penalties]];
+4. using [[#lagrange-multipliers][Lagrange multipliers]].
 
 ** Solution Methods
 
