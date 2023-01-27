@@ -33,18 +33,17 @@ choices, namely linear combinations of past returns in a window of depth $D$:
 $$ E_ {t,\ell} \coloneqq \sum_ {d=1}^D R_ {t+1-d}A_ {d,\ell} $$
 
 where $A\in\mathbb{R}^ {D\times F}$ and $D>F$. Let us denote the columns of $A$ by
-$A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq A_
-{d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces
+$A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq  A_ {d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces
 redundancy in the model, but adds a non-linear constraint to the
 model's parameter space: $A^TA = I_F$. This constraint defines the
 /Stiefel manifold/
 
 $$ V_F(\mathbb{R}^D)\coloneqq\left\{
-A\in\real^ {D\times F} : A^TA= I_F
+A\in\mathbb{R}^ {D\times F} : A^TA= I_F
 \right\}\,. $$
 
 There are multiple methods for
-constructing Stiefel matrices (elements of $V_F(\mathbb{R}^D)$); [[file:exploration.ipynb]] explores the
+constructing /Stiefel matrices/ (elements of $V_F{(}\mathbb{R}^D{)}$); [[file:exploration.ipynb]] explores the
 following options:
 1. [[#sampling-stiefel-matrices-uniformly-at-random][sampling stiefel matrices uniformly at random]];
 2. using [[#the-exponential-map][the exponential map]] as an chart; 
