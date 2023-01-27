@@ -88,6 +88,8 @@ Consequenlty, the exponential map (followed by right multiplication with respect
 
 We implement this chart as ~model_exp~. Using the ~torch.optim.Adam~ optimiser, we obtain a local maximum of $\approx 0.149$ for the metric within $200$ epochs.
 
+While this procedure optimises over a parametrisation for $V_F(\mathbb{R}^D)$, the remaining two solutions employ general techniques from the theory of /constrained optimisation/: /penalties/ and /Lagrange multipliers/.
+
 *** Penalties
 
 *** Lagrange Multipliers
