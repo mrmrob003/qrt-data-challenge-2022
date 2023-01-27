@@ -64,29 +64,29 @@ selecting the best outcome from many attempts. Although this approach always sat
 
 Starting from a specified random seed, this approach obtains a maximum of $\approx 0.046$ for the metric after $1000$ iterations; see [[file:exploration.ipybn]].
 
-In contradistinction, the following three solution methods (implemented in `torch`) converge to maxima of the metric.
+In contradistinction, the following three solution methods (implemented using ~torch~) converge to maxima of the metric.
 
 *** The Exponential Map
 
 The Stiefel manifold $V_F(\mathbb{R}^D)$ is a generalisation of the /orthogonal group/
 
-$$ O(D) \coloneqq \left\{A\in\mathbb{R}^ {D\times D}: A^TA = I_D \right\}\,.
+$$ O(D) \coloneqq \left\{A\in\mathbb{R}^ {D\times D}: A^TA = I_D \right\}\,. $$
 
 More precisely, $V_F(\mathbb{R}^D)$ is the image of $O(D)$ via the projection operator $P=I_F\oplus 0_ {D-F}$ which acts via right multiplication:
 
-$$ A \in O(D) \implies AP \in V_F(\mathbb{R}^D)\,.$$ 
+$$ A \in O(D) \implies AP \in V_F(\mathbb{R}^D)\,. $$ 
 
 The orthogonal group $O(D)$ is a /matrix Lie group/. The associated /matrix Lie algebra/ (the tangent space at $I_D$) is given by 
 
-$$ \mathfrak{o}(D) \coloneqq \left\{X\in\mathbb{R}^ {D\times D}: X + X^T = 0_D \right\}.$
+$$ \mathfrak{o}(D) \coloneqq \left\{X\in\mathbb{R}^ {D\times D}: X + X^T = 0_D \right\}. $$
 
 It furnishes a chart for the connected component of $O(D)$ containing $I_D$ via the exponential map:
 
-$$ X \in \mathfrak{o}(D) \implies \exp(X) \in O(D)\,.$$
+$$ X \in \mathfrak{o}(D) \implies \exp(X) \in O(D)\,. $$
 
 Consequenlty, the exponential map (followed by right multiplication with respect to $P$) defines a chart for $V_F(\mathbb{R}^D)$. 
 
-We implement this chart as `model_exp`. Using the `torch.optim.Adam` optimiser, we obtain a local maximum of $\approx 0.149$ for the metric within $200$ epochs.
+We implement this chart as ~model_exp~. Using the ~torch.optim.Adam~ optimiser, we obtain a local maximum of $\approx 0.149$ for the metric within $200$ epochs.
 
 *** Penalties
 
