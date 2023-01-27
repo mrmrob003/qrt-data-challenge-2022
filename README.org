@@ -92,4 +92,6 @@ While this procedure optimises over a parametrisation for $V_F(\mathbb{R}^D)$, t
 
 *** Penalties
 
+This approach, implemented as ~model_pen~, modifies the cost function (originally $-\text{Metric}{(}A,\beta{)}$) by the addition of a penalty: the $L^2$-norm of $A^TA-I_F$. The modified cost function is amenable to gradient descent which maximises the metric, and minimises the orthonormality constraint. We implement this as ~model_pen~. We use the /learning rate scheduler/ ~torch.optim.lr_scheduler.LambdaLR~ to improve the convergence of the ~torch.optim.SGD~ optimiser. We obtain a local maximum of $\approx 0.149$ for the metric within $2000$ epochs.
+
 *** Lagrange Multipliers
