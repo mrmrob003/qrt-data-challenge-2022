@@ -32,13 +32,19 @@ choices, namely linear combinations of past returns in a window of depth $D$:
 
 $$ E_ {t,\ell} \coloneqq \sum_ {d=1}^D R_ {t+1-d}A_ {d,\ell} $$
 
-where $A\in\mathrm{Mat}_ {D,F}(\mathbb{R})$ is a $D\times F$
-matrix and $D>F$. Let us denote the columns of $A$ by
-$A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq A_ {d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces
+where $A\in\mathbb{R}^ {D\times F}$ and $D>F$. Let us denote the columns of $A$ by
+$A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq A_
+{d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces
 redundancy in the model, but adds a non-linear constraint to the
-model's parameter space: $A^TA = I_F$. This constraint defines a /Stiefel manifold/, a
-generalization of the orthogonal group. There are multiple methods for
-constructing Stiefel matrices; [[file:exploration.ipynb]] explores the
+model's parameter space: $A^TA = I_F$. This constraint defines the
+/Stiefel manifold/
+
+$$ V_F(\mathbb{R}^D)\coloneqq\left\{
+A\in\real^ {D\times F} : A^TA= I_F
+\right\}\,. $$
+
+There are multiple methods for
+constructing Stiefel matrices (elements of $V_F(\mathbb{R}^D)$); [[file:exploration.ipynb]] explores the
 following options:
 1. [[#sampling-stiefel-matrices-uniformly-at-random][sampling stiefel matrices uniformly at random]];
 2. using [[#the-exponential-map][the exponential map]] as an chart; 
@@ -75,7 +81,16 @@ and $m = T - D = 504$.
 The /QRT benchmark strategy/ samples $F$ orthonormal vectors
 $A_1,\ldots,A_F\in\mathbb{R}^D$ uniformly at random and fits the model
 parameters $\beta$ to the training dataset using linear regression,
-selecting the best outcome after many attempts. 
+selecting the best outcome from many attempts. Although this approach
+always satisfies the orthonormality constraint, it is not guaranteed
+to maximise the metric.
+
+Starting from a specified random seed, this approach obtains $\approx
+0.046$ as a maximum for $\text{Metric}(A,\beta)$ after $1000$
+iterations; see [[file:exploration.ipybn]].
+
+In contradistinction, the following three solution methods converge to
+maxima of the metric.
 
 *** The Exponential Map
 
