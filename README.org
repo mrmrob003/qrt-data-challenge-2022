@@ -48,22 +48,25 @@ following options:
 ** Challenge Goals
 #+BEGIN_QUOTE
 The goal of this challenge is to design/learn factors for stock return prediction using the exotic parameter space introduced in the context section.
-s#+END_QUOTE
+#+END_QUOTE
 
 The training dataset contains the returns of $50$ stocks over a period
-of $T = 753$ days. The number of factors and the depth of the window are
+of $T = 754$ days. The number of factors and the depth of the window are
 fixed to $F=10$ and $D=250$, respectively.
 
-The optimisation objective is $\max_ {A,\beta}\text{Metric}(A,\beta)$
-where the metric is given by
+The optimisation objective is given by 
+
+$$ \max_ {A,\beta}\text{Metric}(A,\beta) $$
+
+where 
 
 $$ \text{Metric}(A,\beta) = 
 \begin{cases}
-\frac 1m \sum_{d=D}^T \frac{\langle S_t,R_t\rangle}{|S_t||R_t|}, & |\langle A_ {\ell_1},A_ {\ell_2}\rangle - \delta_ {\ell_1,\ell_2}|<10^ {-6}\forall\ell_1,\ell_2=1,\ldots,F \\
+\frac 1m \sum_ {d=D}^T \frac{\langle S_t,R_t\rangle}{|S_t||R_t|}, & |\langle A_ {\ell_1},A_ {\ell_2}\rangle - \delta_ {\ell_1,\ell_2}|<10^ {-6}~(\forall~\ell_1,\ell_2=1,\ldots,F) \\\
 -1, & \text{otherwise}
 \end{cases} $$
 
-where $m = T - D = 504$.
+and $m = T - D = 504$.
 
 ** Solution Methods
 
