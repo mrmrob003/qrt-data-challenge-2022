@@ -10,41 +10,25 @@ A brief exploration of the [[https://challengedata.ens.fr/participants/challenge
 
 ** Challenge Description
 
-The task of forecasting stock market returns, specifically the
-relative price variations $R_ {t}\in\mathbb{R}^N$ of $N$ stocks at
-some time $t$, is a common problem in finance. The objective in this challenge
-is to use the information available up to that point in time to create
-a vector $S_ {t+1}\in\mathbb{R}^N$ that maximises the prediction
-overlap $\langle S_ {t+1},R_ {t+1}\rangle$. 
+The task of forecasting stock market returns, specifically the relative price variations $R_ {t}\in\mathbb{R}^N$ of $N$ stocks at some time $t$, is a common problem in finance. The objective in this challenge is to use the information available up to that point in time to create a vector $S_ {t+1}\in\mathbb{R}^N$ that maximises the prediction overlap $\langle S_ {t+1},R_ {t+1}\rangle$. 
 
-The simplest approach uses linear estimators where a parametric
-model of the form
+The simplest approach uses linear estimators where a parametric model of the form
 
 $$ S_ {t+1} \coloneqq \sum_ {\ell=1}^F E_ {t,\ell}\beta_\ell $$
 
-is considered. The vectors $E_ {t,\ell}\in\mathbb{R}^N$ are /explanatory factors/, typically chosen based on
-financial expertise, while the model parameters $\beta_\ell\in\mathbb{R}$ are
-fit using a training dataset.
+is considered. The vectors $E_ {t,\ell}\in\mathbb{R}^N$ are /explanatory factors/, typically chosen based on financial expertise, while the model parameters $\beta_\ell\in\mathbb{R}$ are fit using a training dataset.
 
-Rather than relying on standard choices for explanatory factors, one
-may opt to learn them from within the simplest class of possible
-choices, namely linear combinations of past returns in a window of depth $D$:
+Rather than relying on standard choices for explanatory factors, one may opt to learn them from within the simplest class of possible choices, namely linear combinations of past returns in a window of depth $D$:
 
 $$ E_ {t,\ell} \coloneqq \sum_ {d=1}^D R_ {t+1-d}A_ {d,\ell} $$
 
-where $A\in\mathbb{R}^ {D\times F}$ and $D>F$. Let us denote the columns of $A$ by
-$A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq  A_ {d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces
-redundancy in the model, but adds a non-linear constraint to the
-model's parameter space: $A^TA = I_F$. This constraint defines the
-/Stiefel manifold/
+where $A\in\mathbb{R}^ {D\times F}$ and $D>F$. Let us denote the columns of $A$ by $A_1,\ldots,A_F\in\mathbb{R}^D$ where $(A_\ell)_d \coloneqq  A_ {d,\ell}$. Enforcing orthonormality between the columns of $A$ reduces redundancy in the model, but adds a non-linear constraint to the model's parameter space: $A^TA = I_F$. This constraint defines the /Stiefel manifold/
 
 $$ V_F(\mathbb{R}^D)\coloneqq\left\{
 A\in\mathbb{R}^ {D\times F} : A^TA= I_F
 \right\}\,. $$
 
-There are multiple methods for
-constructing /Stiefel matrices/ (elements of $V_F{(}\mathbb{R}^D{)}$); [[file:exploration.ipynb]] explores the
-following options:
+There are multiple methods for constructing /Stiefel matrices/ (elements of $V_F{(}\mathbb{R}^D{)}$); [[file:exploration.ipynb]] explores the following options:
 1. [[#sampling-stiefel-matrices-uniformly-at-random][sampling stiefel matrices uniformly at random]];
 2. using [[#the-exponential-map][the exponential map]] as an chart; 
 3. using [[#penalties][penalties]];
@@ -55,9 +39,7 @@ following options:
 The goal of this challenge is to design/learn factors for stock return prediction using the exotic parameter space introduced in the context section.
 #+END_QUOTE
 
-The training dataset contains the returns of $50$ stocks over a period
-of $T = 754$ days. The number of factors and the depth of the window are
-fixed to $F=10$ and $D=250$, respectively.
+The training dataset contains the returns of $50$ stocks over a period of $T = 754$ days. The number of factors and the depth of the window are fixed to $F=10$ and $D=250$, respectively.
 
 The optimisation objective is given by 
 
@@ -77,21 +59,34 @@ and $m = T - D = 504$.
 
 *** Sampling Stiefel Matrices Uniformly At Random
 
-The /QRT benchmark strategy/ samples $F$ orthonormal vectors
-$A_1,\ldots,A_F\in\mathbb{R}^D$ uniformly at random and fits the model
-parameters $\beta$ to the training dataset using linear regression,
-selecting the best outcome from many attempts. Although this approach
-always satisfies the orthonormality constraint, it is not guaranteed
-to maximise the metric.
+The /QRT benchmark strategy/ samples $F$ orthonormal vectors $A_1,\ldots,A_F\in\mathbb{R}^D$ uniformly at random and fits the model parameters $\beta$ to the training dataset using linear regression,
+selecting the best outcome from many attempts. Although this approach always satisfies the orthonormality constraint, it is not guaranteed to maximise the metric.
 
-Starting from a specified random seed, this approach obtains $\approx
-0.046$ as a maximum for $\text{Metric}(A,\beta)$ after $1000$
-iterations; see [[file:exploration.ipybn]].
+Starting from a specified random seed, this approach obtains a maximum of $\approx 0.046$ for the metric after $1000$ iterations; see [[file:exploration.ipybn]].
 
-In contradistinction, the following three solution methods converge to
-maxima of the metric.
+In contradistinction, the following three solution methods (implemented in `torch`) converge to maxima of the metric.
 
 *** The Exponential Map
+
+The Stiefel manifold $V_F(\mathbb{R}^D)$ is a generalisation of the /orthogonal group/
+
+$$ O(D) \coloneqq \left\{A\in\mathbb{R}^ {D\times D}: A^TA = I_D \right\}\,.
+
+More precisely, $V_F(\mathbb{R}^D)$ is the image of $O(D)$ via the projection operator $P=I_F\oplus 0_ {D-F}$ which acts via right multiplication:
+
+$$ A \in O(D) \implies AP \in V_F(\mathbb{R}^D)\,.$$ 
+
+The orthogonal group $O(D)$ is a /matrix Lie group/. The associated /matrix Lie algebra/ (the tangent space at $I_D$) is given by 
+
+$$ \mathfrak{o}(D) \coloneqq \left\{X\in\mathbb{R}^ {D\times D}: X + X^T = 0_D \right\}.$
+
+It furnishes a chart for the connected component of $O(D)$ containing $I_D$ via the exponential map:
+
+$$ X \in \mathfrak{o}(D) \implies \exp(X) \in O(D)\,.$$
+
+Consequenlty, the exponential map (followed by right multiplication with respect to $P$) defines a chart for $V_F(\mathbb{R}^D)$. 
+
+We implement this chart as `model_exp`. Using the `torch.optim.Adam` optimiser, we obtain a local maximum of $\approx 0.149$ for the metric within $200$ epochs.
 
 *** Penalties
 
