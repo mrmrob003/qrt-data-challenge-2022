@@ -30,7 +30,7 @@ A\in\mathbb{R}^ {D\times F} : A^TA= I_F
 
 There are multiple methods for constructing /Stiefel matrices/ (elements of $V_F{(}\mathbb{R}^D{)}$); [[file:exploration.ipynb]] explores the following options:
 1. [[#sampling-stiefel-matrices-uniformly-at-random][sampling stiefel matrices uniformly at random]];
-2. using [[#the-exponential-map][the exponential map]] as an chart; 
+2. parametrising the orthonormality constraint with [[#the-exponential-map][the exponential map]]; 
 3. using [[#penalties][penalties]];
 4. using [[#lagrange-multipliers][Lagrange multipliers]].
 
